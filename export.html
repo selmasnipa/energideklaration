@@ -64,9 +64,9 @@ footer{margin-top:26px;font-size:13px;color:var(--muted);max-width:90ch}
 </head>
 <body>
 <div class="wrap">
-  <nav class="topnav"><a href="index.html">Start</a><a href="forbered.html">1. Förbered</a><a href="export.html">2. Export till Gripen</a></nav>
+  <nav class="topnav"><a href="index.html">Start</a><a href="forbered.html">1. Förbered</a><a href="atemp.html">A-temp från ritning</a><a href="export.html">2. Export till Gripen</a></nav>
   <h1>Export till Gripen</h1>
-  <p class="lede">Ladda upp den ifyllda energideklarationsmallen (BFS 2026). Välj byggnad, komplettera uppgifterna som inte finns i mallen och ladda ned en XML-fil i Fi2-format 3.0 för import i Gripen. Filen läses i webbläsaren och skickas ingenstans.</p>
+  <p class="lede">Ladda upp den ifyllda energideklarationsmallen (BFS 2026, version 6 eller senare). Välj byggnad, komplettera uppgifterna som inte finns i mallen och ladda ned en XML-fil i Fi2-format 3.0 för import i Gripen. Filen läses i webbläsaren och skickas ingenstans.</p>
 
   <div class="card drop" id="drop">
     <p><strong>Mallen som .xlsx</strong>, sparad i Excel efter senaste ändringen.</p>
@@ -257,7 +257,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
   function checkTemplate(wb) {
     const v = reader(wb); const errs = [];
-    const need = ['Byggnader', 'Normalisering', 'Mätdata', 'Solceller', 'Sammanfattning', 'Besiktningsprotokoll'];
+    const need = ['Byggnader', 'Normalisering', 'Mätdata', 'El', 'Sammanfattning', 'Besiktningsprotokoll'];
     need.forEach((x) => { if (!wb.Sheets[x]) errs.push(`Fliken "${x}" saknas.`); });
     if (errs.length) return errs;
     const lab = (sh, a, re) => { const t = s(v(sh, a)); if (!re.test(t)) errs.push(`${sh}!${a} har inte förväntad rubrik (hittade "${t}").`); };
@@ -267,7 +267,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     lab('Normalisering', 'A124', /Fjärrvärme/i);
     lab('Normalisering', 'A139', /Övrig energi/i);
     lab('Normalisering', 'A143', /Hushållsel/i);
-    lab('Solceller', 'A16', /Produktion/i);
+    lab('El', 'A17', /Solproduktion/i);
     return errs;
   }
 
@@ -295,14 +295,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         fjk: n(v('Normalisering', c + ROW.fjk)), hush: n(v('Normalisering', c + ROW.hush)),
         verks: n(v('Normalisering', c + ROW.verks)), utanfor: n(v('Normalisering', c + ROW.utanfor)),
         uteluft: n(v('Normalisering', c + ROW.uteluft)),
-        kwp: n(v('Solceller', c + '13')), solprod: n(v('Solceller', c + '16')),
+        kwp: n(v('El', c + '14')), solprod: n(v('El', c + '17')),
         tid: wb.Sheets['Tidigare deklarationer'] ? {
           husnr: s(v('Tidigare deklarationer', c + '12')), prefix: s(v('Tidigare deklarationer', c + '13')), riksId: s(v('Tidigare deklarationer', c + '14')),
           adresser: s(v('Tidigare deklarationer', c + '15')), typkod: s(v('Tidigare deklarationer', c + '16')), kallare: s(v('Tidigare deklarationer', c + '22')),
           vaningar: s(v('Tidigare deklarationer', c + '23')), trapphus: s(v('Tidigare deklarationer', c + '24')), vent: s(v('Tidigare deklarationer', c + '43')),
           ovkKrav: s(v('Tidigare deklarationer', c + '44')), ovkUtford: s(v('Tidigare deklarationer', c + '45')), ovkUtanAnm: s(v('Tidigare deklarationer', c + '46')),
           radon: s(v('Tidigare deklarationer', c + '47')), besiktigad: s(v('Tidigare deklarationer', c + '49')) } : null,
-        solExport: n(v('Solceller', c + '17')), solBidrar: n(v('Solceller', c + '44')) + n(v('Solceller', c + '45')),
+        solExport: n(v('El', c + '18')), solBidrar: n(v('El', c + '128')) + n(v('El', c + '132')),
         kopHeat: PROD.map((p, k) => n(v('Normalisering', c + (81 + k)))), kopVV: PROD.map((p, k) => n(v('Normalisering', c + (69 + k)))),
         fakt: { temp: n(v('Normalisering', c + '14')), ute: n(v('Normalisering', c + '15')), il: n(v('Normalisering', c + '49')), vv: n(v('Normalisering', c + '52')) },
         kta: { temp: n(v('Normalisering', c + '39')), ute: n(v('Normalisering', c + '40')), il: n(v('Normalisering', c + '41')), vv: n(v('Normalisering', c + '42')) },
@@ -590,7 +590,7 @@ function render(){
   if(!f.trapphus) w.push('Antal trapphus saknas.');
   if(!/^\d{4}$/.test(f.matFran)) w.push('Mätperioden ska anges som ÅÅMM.');
   if(!f.ventTyper.length) w.push('Välj typ av ventilationssystem.');
-  if(+f.solcellProd>0 && !(+f.solcellArea>0)) w.push('Solcellsarea saknas, så solcellerna tas inte med i filen. Ange arean (eller kWp i fliken Solceller).');
+  if(+f.solcellProd>0 && !(+f.solcellArea>0)) w.push('Solcellsarea saknas, så solcellerna tas inte med i filen. Ange arean (eller kWp i fliken El).');
   if(+f.uteluft>1) w.push('Uteluftsflödet får vara högst 1 l/s,m² i importformatet.');
   if(r.recs.some(m=>m.costPerKwh>9.99)) w.push('Besparingskostnad över 9,99 kr/kWh har begränsats till 9,99.');
   if(f.radonMatt && (!f.radonVarde||!f.radonDatum)) w.push('Radonhalt och datum behövs när radon är mätt.');
