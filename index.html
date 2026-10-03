@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Energideklaration BFS 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF2F1;--surface:#fff;--ink:#14302B;--muted:#56706A;--rule:#C9D5D2;--action:#0B6B61;--action-ink:#fff;--sans:"Barlow","Helvetica Neue",Arial,sans-serif;--cond:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1916;--surface:#15221E;--ink:#E2EDEA;--muted:#91A8A1;--rule:#2B3D38;--action:#4CC0AF;--action-ink:#05201B}}
+:root[data-theme="dark"]{--bg:#0E1916;--surface:#15221E;--ink:#E2EDEA;--muted:#91A8A1;--rule:#2B3D38;--action:#4CC0AF;--action-ink:#05201B}
+*,*::before,*::after{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:36px 20px 56px}
+h1{font:700 clamp(30px,5vw,48px)/1.05 var(--cond);margin:0 0 10px}
+.lede{color:var(--muted);max-width:64ch;margin:0 0 28px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.step{background:var(--surface);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.step b{font:700 34px/1 var(--cond);color:var(--action)}
+.step h2{font:600 21px/1.2 var(--cond);margin:0}
+.step p{margin:0;color:var(--muted);font-size:15.5px;flex:1}
+.step a{align-self:flex-start;font:600 15px/1 var(--sans);border-radius:6px;padding:11px 16px;background:var(--action);color:var(--action-ink);text-decoration:none}
+.step a.ghost{background:transparent;color:var(--action);border:1.5px solid var(--action)}
+a:focus-visible{outline:3px solid var(--action);outline-offset:2px}
+footer{margin-top:28px;font-size:14px;color:var(--muted);max-width:80ch}
+@media (max-width:760px){.steps{grid-template-columns:minmax(0,1fr)}}
+</style></head><body><div class="wrap">
+<h1>Energideklaration enligt BFS 2026</h1>
+<p class="lede">Verktyg för energideklarationer enligt BFS 2026:9 och 2026:10. Allt körs i webbläsaren: inga filer laddas upp till någon server.</p>
+<div class="steps">
+<div class="step"><b>1</b><h2>Förbered</h2><p>Läs in tidigare energideklarationer (PDF). Du får tillbaka Excel-mallen med byggnadsuppgifterna förifyllda, en kolumn per byggnad.</p><a href="forbered.html">Öppna</a></div>
+<div class="step"><b>2</b><h2>Beräkna i Excel</h2><p>Fyll i aktuella mätdata, besiktning, normalisering och åtgärder i mallen. Spara filen i Excel när du är klar.</p><a class="ghost" href="Energideklaration_BFS2026_v5_mall.xlsx" download>Ladda ned tom mall</a></div>
+<div class="step"><b>3</b><h2>Export till Gripen</h2><p>Ladda upp den sparade mallen, välj byggnad och skapa XML-filen för import i Gripen. Listan visar det som fylls i direkt i Gripen.</p><a href="export.html">Öppna</a></div>
+</div>
+<footer><p>Importformatet är Fi2 version 3.0 enligt Boverkets beskrivning. Testa filen med Validera XML på gripen.boverket.se innan den importeras.</p></footer>
+</div></body></html>
